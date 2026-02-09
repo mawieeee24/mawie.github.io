@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atheni Lynn - Real Estate Agent</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">Atheni Lynn</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li> 
+                <li><a href="#featured">Featured</a></li>  
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Realtor Atheni Lynn</h1>
+            <p>Premium Real Estate Agent</p>
+            <p class="tagline">Find Your Dream Home Today</p>
+            <a href="#featured" class="cta-button">View Featured Listings</a>
+        </div>
+    </section>
+
+    <!-- Agent Profile & About Section -->
+    <section id="about" class="agent-profile">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="agent-container">
+                <div class="agent-photo">
+                    <img src="profile.png" alt="Atheni Lynn">
+                </div>
+                <div class="agent-info">
+                    <h3>Meet Atheni Lynn</h3>
+                    <p class="agent-title">Luxury Real Estate Specialist</p>                   
+                    <p>
+                        With over 15 years of experience in luxury real estate, I specialize in helping clients find 
+                        their perfect properties. My dedication to exceptional service and market knowledge sets me apart 
+                        in the competitive real estate industry.
+                    </p>
+                    <p>
+                        Known for my attention to detail and commitment to client satisfaction, I've helped hundreds of 
+                        families achieve their real estate goals. Whether buying, selling, or investing, I'm here to guide 
+                        you every step of the way.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Listing Section -->
+    <section id="featured" class="featured">
+        <div class="container">
+            <h2>Featured Listings</h2>
+
+            <!-- Admin-only controls (hidden from public) -->
+            <div class="admin-controls" id="adminControls" style="display: none;">
+                <button id="addFeaturedBtn" class="cta-button">+ Add Featured</button>
+                <button id="logoutBtn" class="details-btn">Logout</button>
+            </div>
+
+            <div id="featuredList" class="featured-list">
+                <!-- JS will render listing cards here -->
+            </div>
+
+            <!-- Details Modal / Gallery (dynamic) -->
+            <div id="detailsModal" class="modal" aria-hidden="true">
+                <div class="modal-content project-details">
+                    <button class="modal-close" aria-label="Close details">×</button>
+                    <div class="details-tabs">
+                        <button class="tab-btn active" data-tab="gallery">Gallery</button>
+                        <button class="tab-btn" data-tab="info">Project Info</button>
+                        <button class="tab-btn" data-tab="amenities">Amenities</button>
+                        <button class="tab-btn" data-tab="pricing">Pricing</button>
+                    </div>
+
+                    <!-- Gallery Tab -->
+                    <div id="gallery-tab" class="tab-content active">
+                        <div class="modal-main">
+                            <button class="modal-prev" aria-label="Previous">‹</button>
+                            <img id="modalImage" src="" alt="Property view">
+                            <button class="modal-next" aria-label="Next">›</button>
+                        </div>
+                        <div class="modal-thumbs">
+                            <!-- thumbs injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Info Tab -->
+                    <div id="info-tab" class="tab-content">
+                        <div class="details-section" id="infoContent">
+                            <!-- dynamic project info -->
+                        </div>
+                    </div>
+
+                    <!-- Amenities Tab -->
+                    <div id="amenities-tab" class="tab-content">
+                        <div class="details-section" id="amenitiesContent">
+                            <!-- dynamic amenities -->
+                        </div>
+                    </div>
+
+                    <!-- Pricing Tab -->
+                    <div id="pricing-tab" class="tab-content">
+                        <div class="details-section" id="pricingContent">
+                            <!-- dynamic pricing -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit/Create Modal -->
+            <div id="editModal" class="modal" aria-hidden="true">
+                <div class="modal-content edit-modal">
+                    <button class="modal-close" aria-label="Close edit">×</button>
+                    <h3 id="editTitle">Add Featured Listing</h3>
+                    <form id="editForm">
+                        <input type="hidden" id="listingId">
+                        <div class="form-row">
+                            <label>Title</label>
+                            <input type="text" id="titleInput" required>
+                        </div>
+                        <div class="form-row">
+                            <label>Description</label>
+                            <textarea id="descInput" rows="3"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <label>Location</label>
+                            <input type="text" id="locationInput" placeholder="e.g. Nivel Hills, Veterans Drive, Cebu City">
+                        </div>
+                        <div class="form-row">
+                            <label>Location Details / Project Info</label>
+                            <textarea id="locationDetailsInput" rows="3" placeholder="Detailed info about the project and location..."></textarea>
+                        </div>
+                        <div class="form-row">
+                            <label>Bedrooms</label>
+                            <input type="number" id="bedsInput" min="0">
+                        </div>
+                        <div class="form-row">
+                            <label>Bathrooms</label>
+                            <input type="number" id="bathsInput" min="0">
+                        </div>
+                        <div class="form-row">
+                            <label>Main Image</label>
+                            <input type="file" id="mainImageInput" accept="image/*">
+                            <div id="mainPreview" class="file-preview"></div>
+                        </div>
+                        <div class="form-row">
+                            <label>Gallery Images</label>
+                            <input type="file" id="galleryInput" accept="image/*" multiple>
+                            <div id="galleryPreview" class="file-preview"></div>
+                        </div>
+                        <div class="form-row">
+                            <label>Amenities (one per line)</label>
+                            <textarea id="amenitiesInput" rows="3" placeholder="e.g. Infinity Pool\n24/7 Security\nGym"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <label>Locations (one per line)</label>
+                            <textarea id="locationsInput" rows="3" placeholder="e.g. Marco Polo Plaza Cebu\nJY Square Mall"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <label>Pricing Units</label>
+                            <div id="pricingUnitsContainer" class="pricing-units-container"></div>
+                            <button type="button" id="addPricingUnitBtn" class="details-btn">+ Add Unit</button>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="cta-button">Save</button>
+                            <button type="button" id="cancelEdit" class="details-btn">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Get in Touch</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>Phone</h3>
+                    <p>+639088878040</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <p>atheni@realestate.com</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Location</h3>
+                    <p>Downtown Real Estate Office</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real-time Status Indicator -->
+    <div id="realtimeStatus" class="realtime-status">
+        <span id="statusIndicator" class="status-dot"></span>
+        <span id="statusText">Connecting...</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Atheni Lynn Real Estate. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Socket.io Client -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

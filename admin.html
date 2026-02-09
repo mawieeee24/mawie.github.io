@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Atheni Lynn - Admin Access</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-login { max-width:420px; margin:80px auto; padding:24px; background:white; border-radius:8px; box-shadow:0 8px 30px rgba(0,0,0,0.12); }
+    .admin-login h2{margin-bottom:12px; text-align:center}
+    .admin-login .warning {background:#fff3cd; border:1px solid #ffc107; padding:12px; border-radius:6px; font-size:13px; color:#856404; margin-bottom:12px; line-height:1.5}
+    .admin-login input[type=password]{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-bottom:12px}
+    .admin-actions{display:flex;gap:10px;margin-top:12px}
+    .admin-login label {display:block; margin-bottom:6px; font-weight:bold}
+    .error {color:#d32f2f; margin-top:8px; font-size:13px}
+    .success {color:#1976d2; margin-top:8px; font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="container admin-login">
+    <h2>🔐 Admin Access - Atheni Lynn</h2>
+    <div class="warning">
+      ⚠️ <strong>This page is intentionally hidden.</strong> Only the website owner should have access.<br>
+      Do not share this URL or your password with anyone.
+    </div>
+
+    <form id="adminForm">
+      <label for="pw">Admin Password</label>
+      <input id="pw" type="password" required autocomplete="off" placeholder="Enter admin password"/>
+      <div class="admin-actions">
+        <button type="submit" class="cta-button">Login</button>
+        <button type="button" id="cancelBtn" class="details-btn">Back to Website</button>
+      </div>
+      <p id="msg"></p>
+    </form>
+  </div>
+
+  <script>
+    // IMPORTANT: Change this password to something secure!
+    // Generate a strong password and update this value
+    const ADMIN_PASSWORD = 'admin123'; // <-- CHANGE TO YOUR STRONG PASSWORD
+    
+    const form = document.getElementById('adminForm');
+    const msg = document.getElementById('msg');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const pwInput = document.getElementById('pw');
+    
+    cancelBtn.addEventListener('click', ()=>{ window.location = 'index.html'; });
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const v = pwInput.value || '';
+      
+      if (v === ADMIN_PASSWORD) {
+        sessionStorage.setItem('isAdmin', '1');
+        msg.className = 'success';
+        msg.textContent = '✅ Login successful! Redirecting...';
+        setTimeout(() => { window.location = 'index.html'; }, 1000);
+      } else {
+        msg.className = 'error';
+        msg.textContent = '❌ Invalid password. Please try again.';
+        pwInput.value = '';
+        pwInput.focus();
+      }
+    });
+    
+    // Auto-focus password field
+    window.addEventListener('load', () => { pwInput.focus(); });
+  </script>
+</body>
+</html>
